@@ -1,0 +1,14 @@
+/* TEAM */
+Owner: Joey
+Contact: Joey@EarthwiseExcavating.com
+From: Clarksville, OH
+
+/* SITE */
+Built with: Astro, Tailwind CSS
+Last updated: 2026-03-27
+Language: English
+Doctype: HTML5
+
+/* THANKS */
+Astro — https://astro.build
+Tailwind CSS — https://tailwindcss.com
