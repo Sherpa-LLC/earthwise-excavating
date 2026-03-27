@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://earthwise-excavating.pages.dev/sitemap-index.xml
