@@ -38,13 +38,13 @@ const isPrimary = config.serviceAreas.primary.includes(area);
   ]}
 >
   <!-- HERO -->
-  <section class="relative py-28 lg:py-36 overflow-hidden" style={`background: var(--color-secondary);`}>
-    <div class="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+  <section class="relative py-28 lg:py-36 overflow-hidden topo-pattern" style="background: var(--color-secondary);">
+    <div class="relative z-10 mx-auto max-w-4xl px-5 sm:px-6 lg:px-8 text-center">
       <p class="section-label mb-4">Serving {area}</p>
-      <h1 class="text-4xl sm:text-5xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
-        {business.name} in {area}, {contact.address.state}
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
+        {business.name} in <span style="color: var(--color-primary);">{area}</span>
       </h1>
-      <p class="text-lg max-w-2xl mx-auto mb-8" style="color: var(--color-text-on-dark-muted);">
+      <p class="text-lg max-w-2xl mx-auto mb-10" style="color: var(--color-text-on-dark-muted);">
         Trusted {business.tagline.toLowerCase()} serving {area} and the surrounding {contact.address.state} communities. Locally owned, fully licensed, and committed to quality.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -52,12 +52,19 @@ const isPrimary = config.serviceAreas.primary.includes(area);
         <a href={`tel:${contact.phoneRaw}`} class="btn-ghost">{cta.phone.label}</a>
       </div>
     </div>
+    <!-- Earth strip -->
+    <div class="absolute bottom-0 left-0 right-0 z-10 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+    </div>
   </section>
 
   <!-- INTRO -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg);">
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <div class="prose prose-lg max-w-none" style="--tw-prose-headings: var(--color-text); --tw-prose-body: var(--color-text-light); --tw-prose-links: var(--color-primary);">
+  <section class="py-20 lg:py-28 topo-pattern-light" style="background: var(--color-bg);">
+    <div class="mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none" style="--tw-prose-headings: var(--color-text); --tw-prose-body: var(--color-text-light); --tw-prose-links: var(--color-accent);">
         <h2>Your Local {business.name} Team in {area}</h2>
         <p>
           {area} residents and business owners trust {business.name} for reliable, professional service.
@@ -80,27 +87,27 @@ const isPrimary = config.serviceAreas.primary.includes(area);
   </section>
 
   <!-- SERVICES IN THIS AREA -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg-alt);">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <section class="py-20 lg:py-28" style="background: var(--color-bg-alt);">
+    <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
       <p class="section-label mb-3 reveal">Our Services</p>
-      <h2 class="text-3xl sm:text-4xl font-bold mb-4 reveal" style="font-family: var(--font-family-display);">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4 reveal" style="font-family: var(--font-family-display); text-transform: uppercase;">
         Services Available in {area}
       </h2>
       <p class="text-lg mb-12 max-w-2xl reveal" style="color: var(--color-text-muted);">
         We offer our full range of services to {area} homeowners and businesses.
       </p>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((svc, i) => (
           <a
             href={`/services/${svc.data.slug}`}
-            class="group p-6 rounded-lg transition-all duration-300 reveal"
-            style={`background: var(--color-surface); box-shadow: var(--shadow-card); transition-delay: ${i * 100}ms;`}
+            class="group p-6 rounded-sm transition-all duration-300 reveal"
+            style={`background: var(--color-surface); box-shadow: var(--shadow-card); border-left: 4px solid var(--color-earth-topsoil); transition-delay: ${i * 60}ms;`}
           >
-            <h3 class="text-xl font-bold mb-2 group-hover:text-[var(--color-primary)] transition-colors" style="font-family: var(--font-family-display);">
+            <h3 class="text-lg font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors" style="font-family: var(--font-family-display); text-transform: uppercase;">
               {svc.data.title}
             </h3>
-            <p class="text-sm mb-4" style="color: var(--color-text-muted);">{svc.data.shortDescription}</p>
-            <span class="text-sm font-semibold" style="color: var(--color-primary);">
+            <p class="text-sm mb-4" style="color: var(--color-text-muted); line-height: 1.6;">{svc.data.shortDescription}</p>
+            <span class="text-xs font-bold uppercase tracking-widest" style="color: var(--color-accent); font-family: var(--font-family-display);">
               Learn More &rarr;
             </span>
           </a>
@@ -110,31 +117,37 @@ const isPrimary = config.serviceAreas.primary.includes(area);
   </section>
 
   <!-- WHY CHOOSE US FOR THIS AREA -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg);">
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold mb-8 reveal" style="font-family: var(--font-family-display);">
+  <section class="py-20 lg:py-28 topo-pattern-light" style="background: var(--color-bg);">
+    <div class="mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-10 reveal" style="font-family: var(--font-family-display); text-transform: uppercase;">
         Why {area} Chooses {business.name}
       </h2>
-      <div class="space-y-6 reveal">
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style="background: var(--color-primary);">1</div>
-          <div>
-            <h3 class="font-bold text-lg mb-1">Local Knowledge</h3>
-            <p class="text-sm" style="color: var(--color-text-muted);">We know {area} and {contact.address.state} inside and out — local regulations, climate considerations, and what works best in this area.</p>
+      <div class="space-y-0 rounded-sm overflow-hidden reveal" style="box-shadow: var(--shadow-card);">
+        <div class="cross-section-layer">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-sm flex items-center justify-center text-white font-bold text-sm" style="background: var(--color-earth-topsoil); font-family: var(--font-family-display);">01</div>
+            <div>
+              <h3 class="font-bold text-lg mb-1" style="font-family: var(--font-family-display); text-transform: uppercase;">Local Knowledge</h3>
+              <p class="text-sm" style="color: var(--color-text-muted); line-height: 1.65;">We know {area} and {contact.address.state} inside and out -- local regulations, climate considerations, and what works best in this area.</p>
+            </div>
           </div>
         </div>
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style="background: var(--color-primary);">2</div>
-          <div>
-            <h3 class="font-bold text-lg mb-1">Fast Response Times</h3>
-            <p class="text-sm" style="color: var(--color-text-muted);">Based nearby, we can reach {area} quickly. {isPrimary ? 'As a primary service area, you get priority scheduling.' : 'We serve your area regularly and can accommodate your schedule.'}</p>
+        <div class="cross-section-layer">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-sm flex items-center justify-center text-white font-bold text-sm" style="background: var(--color-earth-clay); font-family: var(--font-family-display);">02</div>
+            <div>
+              <h3 class="font-bold text-lg mb-1" style="font-family: var(--font-family-display); text-transform: uppercase;">Fast Response Times</h3>
+              <p class="text-sm" style="color: var(--color-text-muted); line-height: 1.65;">Based nearby, we can reach {area} quickly. {isPrimary ? 'As a primary service area, you get priority scheduling.' : 'We serve your area regularly and can accommodate your schedule.'}</p>
+            </div>
           </div>
         </div>
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" style="background: var(--color-primary);">3</div>
-          <div>
-            <h3 class="font-bold text-lg mb-1">Trusted by Your Neighbors</h3>
-            <p class="text-sm" style="color: var(--color-text-muted);">We've built our reputation one job at a time across {contact.address.state}. Ask around — chances are someone in {area} has worked with us.</p>
+        <div class="cross-section-layer">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-sm flex items-center justify-center text-white font-bold text-sm" style="background: var(--color-earth-rock); font-family: var(--font-family-display);">03</div>
+            <div>
+              <h3 class="font-bold text-lg mb-1" style="font-family: var(--font-family-display); text-transform: uppercase;">Trusted by Your Neighbors</h3>
+              <p class="text-sm" style="color: var(--color-text-muted); line-height: 1.65;">We've built our reputation one job at a time across {contact.address.state}. Ask around -- chances are someone in {area} has worked with us.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -142,18 +155,18 @@ const isPrimary = config.serviceAreas.primary.includes(area);
   </section>
 
   <!-- OTHER LOCATIONS -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg-alt);">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+  <section class="py-20 lg:py-28" style="background: var(--color-bg-alt);">
+    <div class="mx-auto max-w-4xl px-5 sm:px-6 lg:px-8 text-center">
       <p class="section-label mb-3">Service Areas</p>
-      <h2 class="text-2xl font-bold mb-8" style="font-family: var(--font-family-display);">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-10" style="font-family: var(--font-family-display); text-transform: uppercase;">
         We Also Serve
       </h2>
       <div class="flex flex-wrap justify-center gap-3">
         {allAreas.filter(a => a !== area).map((a) => (
           <a
             href={`/locations/${slugify(a)}`}
-            class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-            style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-light);"
+            class="px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-widest transition-all duration-200 hover:bg-[var(--color-accent)] hover:text-white hover:border-[var(--color-accent)]"
+            style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-light); font-family: var(--font-family-display);"
           >
             {a}
           </a>
@@ -163,12 +176,19 @@ const isPrimary = config.serviceAreas.primary.includes(area);
   </section>
 
   <!-- CTA -->
-  <section class="py-16 text-center" style={`background: var(--color-dark);`}>
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold mb-4" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
+  <section class="relative py-20 text-center overflow-hidden topo-pattern" style="background: var(--color-dark);">
+    <div class="absolute top-0 left-0 right-0 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-primary);"></div>
+    </div>
+    <div class="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-5" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
         Ready for Service in {area}?
       </h2>
-      <p class="mb-8" style="color: var(--color-text-on-dark-muted);">
+      <p class="mb-10" style="color: var(--color-text-on-dark-muted);">
         Get in touch today for a free consultation. We're here to help.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">

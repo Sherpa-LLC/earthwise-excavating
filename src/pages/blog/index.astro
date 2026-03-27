@@ -15,21 +15,28 @@ const posts = allPosts
   breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Blog', url: '/blog' }]}
 >
   <!-- HERO -->
-  <section class="py-20 lg:py-28" style={`background: var(--color-secondary);`}>
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+  <section class="relative py-24 lg:py-32 overflow-hidden topo-pattern" style="background: var(--color-secondary);">
+    <div class="relative z-10 mx-auto max-w-4xl px-5 sm:px-6 lg:px-8 text-center">
       <p class="section-label mb-4">Blog</p>
-      <h1 class="text-4xl sm:text-5xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
-        Tips & Insights
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
+        Field Notes & <span style="color: var(--color-primary);">Insights</span>
       </h1>
       <p class="text-lg" style="color: var(--color-text-on-dark-muted);">
         Expert advice and local knowledge from the {config.business.name} team.
       </p>
     </div>
+    <!-- Earth strip -->
+    <div class="absolute bottom-0 left-0 right-0 z-10 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+    </div>
   </section>
 
   <!-- POSTS GRID -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg);">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <section class="py-20 lg:py-28 topo-pattern-light" style="background: var(--color-bg);">
+    <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
       {posts.length === 0 ? (
         <p class="text-center text-lg" style="color: var(--color-text-muted);">
           Check back soon for new posts!
@@ -43,36 +50,37 @@ const posts = allPosts
             return (
               <a
                 href={`/blog/${post.id}`}
-                class="group rounded-lg overflow-hidden transition-shadow duration-300 reveal"
+                class="group rounded-sm overflow-hidden transition-shadow duration-300 reveal"
                 style={`background: var(--color-surface); box-shadow: var(--shadow-card); transition-delay: ${i * 100}ms;`}
               >
                 {post.data.heroImage && (
-                  <div class="aspect-[16/10] overflow-hidden">
+                  <div class="aspect-[16/10] overflow-hidden relative">
                     <img
                       src={post.data.heroImage}
                       alt={post.data.heroAlt || post.data.title}
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       width="600"
                       height="375"
                       loading="lazy"
                     />
+                    <div class="absolute bottom-0 left-0 right-0" style="height: 3px; background: linear-gradient(90deg, var(--color-earth-topsoil), var(--color-earth-clay), var(--color-earth-rock));"></div>
                   </div>
                 )}
                 <div class="p-6">
                   {post.data.category && (
-                    <span class="inline-block px-2 py-1 text-xs font-semibold rounded mb-3" style="background: var(--color-primary); color: white;">
+                    <span class="inline-block px-2.5 py-1 text-[10px] font-bold rounded-sm mb-3 uppercase tracking-widest" style="background: var(--color-accent); color: white; font-family: var(--font-family-display);">
                       {post.data.category}
                     </span>
                   )}
-                  <h2 class="text-lg font-bold mb-2 group-hover:text-[var(--color-primary)] transition-colors" style="font-family: var(--font-family-display);">
+                  <h2 class="text-lg font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors" style="font-family: var(--font-family-display); text-transform: uppercase; line-height: 1.25;">
                     {post.data.title}
                   </h2>
-                  <p class="text-sm mb-4" style="color: var(--color-text-muted);">{post.data.metaDescription}</p>
-                  <div class="flex items-center gap-3 text-xs" style="color: var(--color-text-muted);">
+                  <p class="text-sm mb-4" style="color: var(--color-text-muted); line-height: 1.6;">{post.data.metaDescription}</p>
+                  <div class="flex items-center gap-3 text-xs uppercase tracking-widest" style="color: var(--color-text-muted); font-family: var(--font-family-display);">
                     <span>{formattedDate}</span>
                     {post.data.readingTime && (
                       <>
-                        <span>&middot;</span>
+                        <span style="color: var(--color-earth-topsoil);">&middot;</span>
                         <span>{post.data.readingTime}</span>
                       </>
                     )}

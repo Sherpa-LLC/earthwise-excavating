@@ -32,82 +32,149 @@ const {
 
 const allServices = await getCollection('services');
 const services = allServices.sort((a, b) => a.data.order - b.data.order);
+
+const earthColors = [
+  'var(--color-earth-topsoil)',
+  'var(--color-earth-clay)',
+  'var(--color-earth-rock)',
+  'var(--color-earth-subsoil)',
+  'var(--color-earth-deep)',
+  'var(--color-earth-topsoil)',
+  'var(--color-earth-clay)',
+  'var(--color-earth-rock)',
+  'var(--color-earth-subsoil)',
+];
+
+const statData = [
+  { value: '20+', label: 'Years Experience', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { value: '500+', label: 'Projects Completed', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { value: '15+', label: 'Service Areas', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' },
+];
 ---
 
 <BaseLayout title={business.name} description={business.description}>
-  <!-- HERO -->
-  <section class="relative overflow-hidden" style={`background: var(--color-secondary); min-height: 90dvh;`}>
+  <!-- HERO — Dramatic action photo with topo overlay -->
+  <section class="relative overflow-hidden" style="background: var(--color-secondary); min-height: 100dvh;">
     {heroImage && (
       <div class="absolute inset-0">
         <img
           src={heroImage}
           alt={heroAlt || heroHeadline}
-          class="w-full h-full object-cover opacity-30"
+          class="w-full h-full object-cover"
+          style="opacity: 0.35;"
           width="1920"
           height="1080"
           fetchpriority="high"
           decoding="async"
         />
+        <!-- Dark contrast overlay min 0.75 -->
+        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(13,13,14,0.78) 0%, rgba(13,13,14,0.65) 40%, rgba(13,13,14,0.85) 100%);"></div>
       </div>
     )}
-    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center" style="min-height: 90dvh;">
-      <div class="max-w-2xl">
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); line-height: 1.08;">
+
+    <!-- Topographic SVG overlay -->
+    <div class="absolute inset-0 topo-pattern" style="z-index: 1;"></div>
+
+    <!-- Dust particles -->
+    <div class="dust-particles" style="z-index: 2;"></div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 flex items-center" style="min-height: 100dvh;">
+      <div class="max-w-3xl py-32 lg:py-0">
+        <!-- Accent rule -->
+        <div class="accent-rule mb-8 reveal"></div>
+
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 reveal" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); line-height: 1.02; text-transform: uppercase; letter-spacing: -0.01em;">
           {heroHeadline}
           {heroAccent && (
-            <span class="block" style={`color: var(--color-primary);`}>{heroAccent}</span>
+            <span class="block" style="color: var(--color-primary);">{heroAccent}</span>
           )}
         </h1>
-        <p class="text-lg sm:text-xl mb-8 max-w-xl" style="color: var(--color-text-on-dark-muted);">
+        <p class="text-lg sm:text-xl mb-10 max-w-xl reveal" style="color: var(--color-text-on-dark-muted); line-height: 1.65;">
           {heroSubtext}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex flex-col sm:flex-row gap-4 reveal">
           <a href={cta.primary.href} class="btn-primary">{ctaPrimary || cta.primary.label}</a>
           {ctaSecondary && (
             <a href="/services" class="btn-ghost">{ctaSecondary}</a>
           )}
         </div>
         {trustItems && trustItems.length > 0 && (
-          <div class="mt-10 flex flex-wrap gap-6 text-sm" style="color: var(--color-text-on-dark-muted);">
+          <div class="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm reveal" style="color: var(--color-text-on-dark-muted);">
             {trustItems.map((item: any) => (
-              <span class="flex items-center gap-2">
-                <span style={`color: var(--color-primary);`}>&#10003;</span>
-                {item.label}
+              <span class="flex items-center gap-2.5">
+                <span class="w-1.5 h-1.5 rounded-full" style="background: var(--color-accent);"></span>
+                <span style="font-family: var(--font-family-display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8125rem;">{item.label}</span>
               </span>
             ))}
           </div>
         )}
       </div>
     </div>
+
+    <!-- Earth layer strip at bottom of hero -->
+    <div class="absolute bottom-0 left-0 right-0 z-10 flex" style="height: 6px;">
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-subsoil);"></div>
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+    </div>
   </section>
 
-  <!-- SERVICES -->
-  <section class="py-20 lg:py-28" style="background: var(--color-bg);">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      {servicesSubheading && <p class="section-label mb-3 reveal">{servicesSubheading}</p>}
-      <h2 class="text-3xl sm:text-4xl font-bold mb-12 reveal" style="font-family: var(--font-family-display);">
-        {servicesHeading || 'Our Services'}
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- SERVICES — Stacked horizontal panels with earth-layer gradients -->
+  <section class="py-24 lg:py-32" style="background: var(--color-bg);">
+    <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-16">
+        <div>
+          {servicesSubheading && <p class="section-label mb-3 reveal">{servicesSubheading}</p>}
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold reveal" style="font-family: var(--font-family-display); color: var(--color-text);">
+            {servicesHeading || 'Our Services'}
+          </h2>
+        </div>
+        <a href="/services" class="text-sm font-bold uppercase tracking-widest reveal" style="color: var(--color-accent); font-family: var(--font-family-display);">
+          View All &rarr;
+        </a>
+      </div>
+
+      <div class="space-y-4">
         {services.map((svc, i) => (
           <a
             href={`/services/${svc.data.slug}`}
-            class="group rounded-lg overflow-hidden transition-shadow duration-300 reveal"
-            style={`background: var(--color-surface); box-shadow: var(--shadow-card); transition-delay: ${i * 100}ms;`}
+            class="group grid grid-cols-1 md:grid-cols-12 gap-0 overflow-hidden rounded-md reveal"
+            style={`box-shadow: var(--shadow-card); transition-delay: ${i * 60}ms; background: var(--color-surface);`}
           >
-            <div class="aspect-[16/10] overflow-hidden">
+            <!-- Image Panel -->
+            <div class="md:col-span-4 lg:col-span-3 aspect-[16/10] md:aspect-auto overflow-hidden relative">
               <img
                 src={svc.data.heroImage}
                 alt={svc.data.heroAlt}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                style="min-height: 100%;"
                 width="600"
                 height="375"
                 loading="lazy"
               />
+              <!-- Earth color accent bar -->
+              <div class="absolute bottom-0 left-0 right-0" style={`height: 4px; background: ${earthColors[i % earthColors.length]};`}></div>
             </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2" style="font-family: var(--font-family-display);">{svc.data.title}</h3>
-              <p class="text-sm" style="color: var(--color-text-muted);">{svc.data.shortDescription}</p>
+
+            <!-- Content Panel -->
+            <div class="md:col-span-8 lg:col-span-9 p-6 md:p-8 flex flex-col justify-center" style={`border-left: 4px solid ${earthColors[i % earthColors.length]};`}>
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h3 class="text-xl lg:text-2xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors duration-300" style="font-family: var(--font-family-display); text-transform: uppercase;">
+                    {svc.data.title}
+                  </h3>
+                  <p class="text-sm max-w-xl" style="color: var(--color-text-muted); line-height: 1.65;">
+                    {svc.data.shortDescription}
+                  </p>
+                </div>
+                <div class="hidden sm:flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-full group-hover:bg-[var(--color-accent)] transition-colors duration-300" style="border: 1px solid var(--color-border);">
+                  <svg class="w-4 h-4 group-hover:text-white transition-colors duration-300" style="color: var(--color-text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </a>
         ))}
@@ -115,42 +182,44 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </div>
   </section>
 
-  <!-- WHY US -->
+  <!-- WHY US — Equipment dashboard gauges -->
   {whyUs && whyUs.length > 0 && (
-    <section class="py-20 lg:py-28" style="background: var(--color-bg-alt);">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {whySubheading && <p class="section-label mb-3 reveal">{whySubheading}</p>}
-        <h2 class="text-3xl sm:text-4xl font-bold mb-12 reveal" style="font-family: var(--font-family-display);">
-          {whyHeading || `Why ${business.name}?`}
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {whyUs.map((item: any, i: number) => (
-            <div class="reveal" style={`transition-delay: ${i * 100}ms;`}>
-              <h3 class="text-lg font-bold mb-2">{item.title}</h3>
-              <p class="text-sm" style="color: var(--color-text-muted);">{item.description}</p>
-            </div>
-          ))}
+    <section class="py-24 lg:py-32 topo-pattern" style="background: var(--color-dark);">
+      <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          {whySubheading && <p class="section-label mb-3 reveal">{whySubheading}</p>}
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold reveal" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
+            {whyHeading || `Why ${business.name}?`}
+          </h2>
         </div>
-      </div>
-    </section>
-  )}
 
-  <!-- PROCESS -->
-  {processSteps && processSteps.length > 0 && (
-    <section class="py-20 lg:py-28" style="background: var(--color-bg);">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {processSubheading && <p class="section-label mb-3 reveal">{processSubheading}</p>}
-        <h2 class="text-3xl sm:text-4xl font-bold mb-12 reveal" style="font-family: var(--font-family-display);">
-          {processHeading || 'How It Works'}
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {processSteps.map((step: any, i: number) => (
-            <div class="reveal" style={`transition-delay: ${i * 100}ms;`}>
-              <div class="text-4xl font-bold mb-4" style="color: var(--color-primary); opacity: 0.3;">
-                {String(i + 1).padStart(2, '0')}
+        <!-- Fleet Stats Dashboard -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
+          {statData.map((stat, i) => (
+            <div class="gauge-stat text-center reveal" style={`transition-delay: ${i * 100}ms;`}>
+              <svg class="w-8 h-8 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-primary);">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={stat.icon} />
+              </svg>
+              <div class="text-4xl lg:text-5xl font-bold mb-2" style="font-family: var(--font-family-display); color: var(--color-primary);">
+                {stat.value}
               </div>
-              <h3 class="text-lg font-bold mb-2">{step.title}</h3>
-              <p class="text-sm" style="color: var(--color-text-muted);">{step.description}</p>
+              <div class="text-sm uppercase tracking-widest" style="color: var(--color-text-on-dark-muted); font-family: var(--font-family-display);">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Why Us Items -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {whyUs.map((item: any, i: number) => (
+            <div class="reveal earth-layer-border pl-6" style={`transition-delay: ${i * 100}ms;`}>
+              <h3 class="text-lg font-bold mb-3 uppercase" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
+                {item.title}
+              </h3>
+              <p class="text-sm" style="color: var(--color-text-on-dark-muted); line-height: 1.7;">
+                {item.description}
+              </p>
             </div>
           ))}
         </div>
@@ -158,25 +227,75 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </section>
   )}
 
-  <!-- TESTIMONIALS -->
+  <!-- PROCESS — Underground cross-section diagram metaphor -->
+  {processSteps && processSteps.length > 0 && (
+    <section class="py-24 lg:py-32 topo-pattern-light" style="background: var(--color-bg);">
+      <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div>
+            {processSubheading && <p class="section-label mb-3 reveal">{processSubheading}</p>}
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 reveal" style="font-family: var(--font-family-display);">
+              {processHeading || 'How It Works'}
+            </h2>
+            <p class="text-base reveal" style="color: var(--color-text-muted); line-height: 1.7;">
+              From first call to final grade, our proven process ensures your project is completed on time, on budget, and built to last.
+            </p>
+          </div>
+
+          <!-- Cross-section layers -->
+          <div class="cross-section space-y-0 rounded-md overflow-hidden reveal" style="box-shadow: var(--shadow-card);">
+            {processSteps.map((step: any, i: number) => (
+              <div class="cross-section-layer">
+                <div class="flex items-start gap-4">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-sm flex items-center justify-center font-bold text-sm" style={`background: ${['var(--color-earth-topsoil)', 'var(--color-earth-clay)', 'var(--color-earth-rock)', 'var(--color-earth-deep)'][i] || 'var(--color-earth-rock)'}; color: white; font-family: var(--font-family-display);`}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-bold mb-1" style="font-family: var(--font-family-display); text-transform: uppercase;">
+                      {step.title}
+                    </h3>
+                    <p class="text-sm" style="color: var(--color-text-muted); line-height: 1.65;">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- TESTIMONIALS — Foundation blocks -->
   {config.testimonials.length > 0 && (
-    <section class="py-20 lg:py-28" style="background: var(--color-bg-alt);">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {testimonialsSubheading && <p class="section-label mb-3 reveal">{testimonialsSubheading}</p>}
-        <h2 class="text-3xl sm:text-4xl font-bold mb-12 reveal" style="font-family: var(--font-family-display);">
-          {testimonialsHeading || 'What Our Clients Say'}
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <section class="py-24 lg:py-32" style="background: var(--color-dark-alt);">
+      <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          {testimonialsSubheading && <p class="section-label mb-3 reveal">{testimonialsSubheading}</p>}
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold reveal" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
+            {testimonialsHeading || 'What Our Clients Say'}
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {config.testimonials.map((t, i) => (
-            <blockquote class="p-8 rounded-lg reveal" style={`background: var(--color-surface); box-shadow: var(--shadow-card); transition-delay: ${i * 100}ms;`}>
-              <p class="text-base mb-6 italic" style="color: var(--color-text-light);">&ldquo;{t.quote}&rdquo;</p>
-              <footer class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white" style="background: var(--color-primary);">
+            <blockquote class="foundation-block reveal" style={`transition-delay: ${i * 100}ms;`}>
+              <!-- Quote mark -->
+              <div class="text-5xl font-bold leading-none mb-4" style="font-family: Georgia, serif; color: var(--color-earth-topsoil); opacity: 0.4;">
+                &ldquo;
+              </div>
+              <p class="text-base mb-8 leading-relaxed" style="color: var(--color-text-on-dark-muted); font-style: italic;">
+                {t.quote}
+              </p>
+              <footer class="flex items-center gap-3" style="border-top: 1px solid rgba(201,169,110,0.15); padding-top: 1.25rem;">
+                <div class="w-10 h-10 rounded-sm flex items-center justify-center font-bold text-sm" style="background: var(--color-earth-topsoil); color: var(--color-dark); font-family: var(--font-family-display);">
                   {t.author.charAt(0)}
                 </div>
                 <div>
-                  <cite class="not-italic font-bold text-sm">{t.author}</cite>
-                  <p class="text-xs" style="color: var(--color-text-muted);">{t.location}</p>
+                  <cite class="not-italic font-bold text-sm block" style="color: var(--color-text-on-dark); font-family: var(--font-family-display); text-transform: uppercase; letter-spacing: 0.04em;">
+                    {t.author}
+                  </cite>
+                  <span class="text-xs" style="color: var(--color-text-on-dark-muted);">{t.location}</span>
                 </div>
               </footer>
             </blockquote>
@@ -186,20 +305,29 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </section>
   )}
 
-  <!-- CTA BANNER -->
-  <section class="py-20 text-center" style={`background: var(--color-dark);`}>
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-4 reveal" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
-        {ctaBannerHeading || 'Ready to Get Started'}
+  <!-- CTA BANNER — Topographic pattern with gold on dark earth -->
+  <section class="relative py-24 lg:py-28 text-center overflow-hidden topo-pattern" style="background: var(--color-dark);">
+    <!-- Earth accent strip top -->
+    <div class="absolute top-0 left-0 right-0 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-primary);"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 reveal" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
+        {ctaBannerHeading || 'Ready to Break Ground'}
         {ctaBannerAccent && (
-          <span style={`color: var(--color-primary);`}> {ctaBannerAccent}</span>
+          <span style="color: var(--color-primary);"> {ctaBannerAccent}</span>
         )}
       </h2>
-      <p class="mb-8 reveal" style="color: var(--color-text-on-dark-muted);">
+      <p class="mb-10 text-lg reveal" style="color: var(--color-text-on-dark-muted);">
         {ctaBannerText || `Contact ${business.name} today for a free consultation.`}
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center reveal">
-        <a href={cta.primary.href} class="btn-primary">{cta.primary.label}</a>
+        <a href={cta.primary.href} class="btn-primary">Break Ground Today</a>
         <a href={`tel:${contact.phoneRaw}`} class="btn-ghost">{cta.phone.label}</a>
       </div>
     </div>

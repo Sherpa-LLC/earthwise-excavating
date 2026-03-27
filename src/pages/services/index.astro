@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { config } from '../../config';
+import { getCollection } from 'astro:content';
+
+const { business, contact, cta } = config;
+
+const allServices = await getCollection('services');
+const services = allServices.sort((a, b) => a.data.order - b.data.order);
+
+const earthColors = [
+  'var(--color-earth-topsoil)',
+  'var(--color-earth-clay)',
+  'var(--color-earth-rock)',
+  'var(--color-earth-subsoil)',
+  'var(--color-earth-deep)',
+  'var(--color-earth-topsoil)',
+  'var(--color-earth-clay)',
+  'var(--color-earth-rock)',
+  'var(--color-earth-subsoil)',
+];
+---
+
+<BaseLayout
+  title="Services"
+  description={`Full range of excavation and land management services from ${business.name}. Building pads, drainage, ponds, driveways, basements, and more in Southwest Ohio.`}
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Services', url: '/services' }]}
+>
+  <!-- HERO -->
+  <section class="relative py-24 lg:py-32 overflow-hidden topo-pattern" style="background: var(--color-secondary);">
+    <div class="relative z-10 mx-auto max-w-4xl px-5 sm:px-6 lg:px-8 text-center">
+      <p class="section-label mb-4">What We Do</p>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
+        Our <span style="color: var(--color-primary);">Services</span>
+      </h1>
+      <p class="text-lg max-w-xl mx-auto" style="color: var(--color-text-on-dark-muted);">
+        From building pads to pond construction, we have the equipment, expertise, and conservation ethic to tackle any earthwork challenge.
+      </p>
+    </div>
+    <!-- Earth strip -->
+    <div class="absolute bottom-0 left-0 right-0 z-10 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+    </div>
+  </section>
+
+  <!-- SERVICES LIST -->
+  <section class="py-24 lg:py-32 topo-pattern-light" style="background: var(--color-bg);">
+    <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="space-y-4">
+        {services.map((svc, i) => (
+          <a
+            href={`/services/${svc.data.slug}`}
+            class="group grid grid-cols-1 md:grid-cols-12 gap-0 overflow-hidden rounded-sm reveal"
+            style={`box-shadow: var(--shadow-card); transition-delay: ${i * 60}ms; background: var(--color-surface);`}
+          >
+            <div class="md:col-span-4 lg:col-span-3 aspect-[16/10] md:aspect-auto overflow-hidden relative">
+              <img
+                src={svc.data.heroImage}
+                alt={svc.data.heroAlt}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                style="min-height: 100%;"
+                width="600"
+                height="375"
+                loading="lazy"
+              />
+              <div class="absolute bottom-0 left-0 right-0" style={`height: 4px; background: ${earthColors[i % earthColors.length]};`}></div>
+            </div>
+            <div class="md:col-span-8 lg:col-span-9 p-6 md:p-8 flex flex-col justify-center" style={`border-left: 4px solid ${earthColors[i % earthColors.length]};`}>
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h2 class="text-xl lg:text-2xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors duration-300" style="font-family: var(--font-family-display); text-transform: uppercase;">
+                    {svc.data.title}
+                  </h2>
+                  <p class="text-sm max-w-xl" style="color: var(--color-text-muted); line-height: 1.65;">
+                    {svc.data.shortDescription}
+                  </p>
+                </div>
+                <div class="hidden sm:flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-full group-hover:bg-[var(--color-accent)] transition-colors duration-300" style="border: 1px solid var(--color-border);">
+                  <svg class="w-4 h-4 group-hover:text-white transition-colors duration-300" style="color: var(--color-text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative py-20 text-center overflow-hidden topo-pattern" style="background: var(--color-dark);">
+    <div class="absolute top-0 left-0 right-0 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-primary);"></div>
+    </div>
+    <div class="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
+        Ready to Break <span style="color: var(--color-primary);">Ground?</span>
+      </h2>
+      <p class="mb-10" style="color: var(--color-text-on-dark-muted);">
+        Contact us today for a free, no-obligation consultation on your next project.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href={cta.primary.href} class="btn-primary">{cta.primary.label}</a>
+        <a href={`tel:${contact.phoneRaw}`} class="btn-ghost">{cta.phone.label}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

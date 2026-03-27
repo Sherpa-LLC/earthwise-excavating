@@ -9,6 +9,20 @@ const allAreas = [...config.serviceAreas.primary, ...config.serviceAreas.seconda
 const about = await getEntry('pages', 'about');
 const { heroImage, heroAlt, metaDescription } = about.data;
 const { Content } = await render(about);
+
+const credentials = [
+  { value: '20+', label: 'Years in the Field' },
+  { value: '9', label: 'Service Specialties' },
+  { value: '15+', label: 'Communities Served' },
+  { value: '5.0', label: 'Star Rating' },
+];
+
+const stewardship = [
+  { title: 'Erosion Prevention', desc: 'Every grading job includes proper erosion control measures to protect waterways and adjacent properties.' },
+  { title: 'Minimal Footprint', desc: 'We plan equipment staging and access routes to minimize disturbance to existing vegetation and habitat.' },
+  { title: 'Soil Conservation', desc: 'Topsoil is stockpiled and reapplied during restoration, preserving the biological health of your land.' },
+  { title: 'Watershed Protection', desc: 'Our drainage solutions are designed to protect local watersheds and prevent downstream flooding.' },
+];
 ---
 
 <BaseLayout
@@ -18,52 +32,111 @@ const { Content } = await render(about);
   breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'About', url: '/about' }]}
 >
   <!-- HERO -->
-  <section class="relative py-28 lg:py-36 overflow-hidden" style={`background: var(--color-secondary);`}>
+  <section class="relative py-32 lg:py-40 overflow-hidden" style="background: var(--color-secondary);">
     {heroImage && (
       <div class="absolute inset-0">
-        <img src={heroImage} alt={heroAlt || 'About us'} class="w-full h-full object-cover opacity-20" width="1920" height="1080" fetchpriority="high" />
+        <img src={heroImage} alt={heroAlt || 'About us'} class="w-full h-full object-cover" style="opacity: 0.3;" width="1920" height="1080" fetchpriority="high" />
+        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(13,13,14,0.8) 0%, rgba(13,13,14,0.7) 50%, rgba(13,13,14,0.85) 100%);"></div>
       </div>
     )}
-    <div class="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+    <div class="absolute inset-0 topo-pattern"></div>
+    <div class="relative z-10 mx-auto max-w-4xl px-5 sm:px-6 lg:px-8 text-center">
       <p class="section-label mb-4">About Us</p>
-      <h1 class="text-4xl sm:text-5xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
         {about.data.title || `About ${business.name}`}
       </h1>
+      <div class="accent-rule mx-auto"></div>
+    </div>
+    <!-- Earth strip -->
+    <div class="absolute bottom-0 left-0 right-0 z-10 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS — Dashboard Stats -->
+  <section class="py-16 lg:py-20" style="background: var(--color-dark-alt);">
+    <div class="mx-auto max-w-5xl px-5 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {credentials.map((cred, i) => (
+          <div class="gauge-stat text-center reveal" style={`transition-delay: ${i * 80}ms;`}>
+            <div class="text-3xl lg:text-4xl font-bold mb-1" style="font-family: var(--font-family-display); color: var(--color-primary);">
+              {cred.value}
+            </div>
+            <div class="text-xs uppercase tracking-widest" style="color: var(--color-text-on-dark-muted); font-family: var(--font-family-display);">
+              {cred.label}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
   <!-- CONTENT -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg);">
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <div class="prose prose-lg max-w-none" style="--tw-prose-headings: var(--color-text); --tw-prose-body: var(--color-text-light); --tw-prose-links: var(--color-primary);">
+  <section class="py-20 lg:py-28 topo-pattern-light" style="background: var(--color-bg);">
+    <div class="mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none" style="--tw-prose-headings: var(--color-text); --tw-prose-body: var(--color-text-light); --tw-prose-links: var(--color-accent);">
         <Content />
       </div>
     </div>
   </section>
 
+  <!-- ENVIRONMENTAL STEWARDSHIP -->
+  <section class="py-20 lg:py-28" style="background: var(--color-bg-alt);">
+    <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <p class="section-label mb-3 reveal">Conservation</p>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold reveal" style="font-family: var(--font-family-display);">
+          Environmental Stewardship
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {stewardship.map((item, i) => (
+          <div class="earth-layer-border pl-6 py-4 reveal" style={`transition-delay: ${i * 80}ms;`}>
+            <h3 class="text-lg font-bold mb-2" style="font-family: var(--font-family-display); text-transform: uppercase;">
+              {item.title}
+            </h3>
+            <p class="text-sm" style="color: var(--color-text-muted); line-height: 1.7;">
+              {item.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- SERVICE AREAS -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg-alt);">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-      <p class="section-label mb-3">Coverage Area</p>
-      <h2 class="text-3xl font-bold mb-8" style="font-family: var(--font-family-display);">
+  <section class="py-20 lg:py-28 topo-pattern" style="background: var(--color-dark);">
+    <div class="mx-auto max-w-4xl px-5 sm:px-6 lg:px-8 text-center">
+      <p class="section-label mb-3 reveal">Coverage Area</p>
+      <h2 class="text-3xl sm:text-4xl font-bold mb-8 reveal" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
         Proudly Serving {config.contact.address.city} & Beyond
       </h2>
-      <p class="text-lg" style="color: var(--color-text-muted);">
+      <p class="text-lg reveal" style="color: var(--color-text-on-dark-muted);">
         {allAreas.join(' \u00B7 ')}
       </p>
     </div>
   </section>
 
   <!-- CTA -->
-  <section class="py-16 text-center" style={`background: var(--color-dark);`}>
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold mb-4" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
+  <section class="relative py-20 text-center overflow-hidden" style="background: var(--color-dark-alt);">
+    <div class="absolute top-0 left-0 right-0 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-primary);"></div>
+    </div>
+    <div class="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-5 reveal" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
         Ready to Work with Us?
       </h2>
-      <p class="mb-8" style="color: var(--color-text-on-dark-muted);">
-        Get in touch today for a free consultation.
+      <p class="mb-10 reveal" style="color: var(--color-text-on-dark-muted);">
+        Get in touch today for a free consultation on your next project.
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center reveal">
         <a href={cta.primary.href} class="btn-primary">{cta.primary.label}</a>
         <a href={`tel:${contact.phoneRaw}`} class="btn-ghost">{cta.phone.label}</a>
       </div>

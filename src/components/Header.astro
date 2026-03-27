@@ -6,17 +6,26 @@ const currentPath = Astro.url.pathname;
 
 <header
   id="site-header"
-  class="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm transition-shadow duration-300"
-  style={`background-color: color-mix(in srgb, var(--color-dark) 95%, transparent);`}
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  style="background-color: rgba(13,13,14,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
 >
+  <!-- Earth layer accent strip -->
+  <div class="flex" style="height: 3px;">
+    <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+    <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+    <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+    <div class="flex-1" style="background: var(--color-earth-subsoil);"></div>
+    <div class="flex-1" style="background: var(--color-primary);"></div>
+  </div>
+
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
-    <div class="flex items-center justify-between h-[72px] lg:h-20">
+    <div class="flex items-center justify-between h-[68px] lg:h-[76px]">
       <!-- Logo -->
       <a href="/" class="relative z-50 flex-shrink-0" aria-label={config.business.name}>
         <img
           src="/images/logo.svg"
           alt={config.business.name}
-          class="h-10 lg:h-12 w-auto"
+          class="h-9 lg:h-11 w-auto"
           width="240"
           height="48"
         />
@@ -30,11 +39,12 @@ const currentPath = Astro.url.pathname;
             <a
               href={item.href}
               class:list={[
-                'px-3 py-2 text-[13px] font-medium uppercase tracking-[0.08em] transition-colors duration-200',
+                'px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] transition-colors duration-200',
                 isActive
                   ? 'text-[var(--color-primary)]'
                   : 'text-[var(--color-text-on-dark-muted)] hover:text-[var(--color-text-on-dark)]',
               ]}
+              style="font-family: var(--font-family-display);"
             >
               {item.label}
             </a>
@@ -43,14 +53,15 @@ const currentPath = Astro.url.pathname;
       </nav>
 
       <!-- Desktop CTA -->
-      <div class="hidden lg:flex items-center gap-4">
+      <div class="hidden lg:flex items-center gap-5">
         <a
           href={`tel:${config.contact.phoneRaw}`}
-          class="text-[var(--color-text-on-dark-muted)] hover:text-[var(--color-text-on-dark)] text-[13px] font-medium tracking-wide transition-colors duration-200"
+          class="text-[var(--color-text-on-dark-muted)] hover:text-[var(--color-primary)] text-[12px] font-semibold tracking-widest transition-colors duration-200 uppercase"
+          style="font-family: var(--font-family-display);"
         >
           {config.contact.phone}
         </a>
-        <a href={config.cta.primary.href} class="btn-primary !min-w-0 !px-5 !py-2.5 !text-[13px]">
+        <a href={config.cta.primary.href} class="btn-primary !min-w-0 !px-6 !py-2.5 !text-[12px]">
           Free Quote
         </a>
       </div>
@@ -63,7 +74,7 @@ const currentPath = Astro.url.pathname;
         aria-expanded="false"
       >
         <div class="menu-icon space-y-1.5">
-          <span class="block w-6 h-[2px] bg-[var(--color-text-on-dark)] transition-all duration-300 origin-center"></span>
+          <span class="block w-6 h-[2px] bg-[var(--color-primary)] transition-all duration-300 origin-center"></span>
           <span class="block w-6 h-[2px] bg-[var(--color-text-on-dark)] transition-all duration-300"></span>
           <span class="block w-4 h-[2px] bg-[var(--color-text-on-dark)] transition-all duration-300 origin-center"></span>
         </div>
@@ -74,26 +85,27 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile Menu Overlay -->
   <div
     id="mobile-menu"
-    class="fixed inset-0 z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
-    style={`background-color: var(--color-dark);`}
+    class="fixed inset-0 z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 topo-pattern"
+    style="background-color: var(--color-dark);"
   >
     <nav class="flex flex-col items-center gap-6" aria-label="Mobile navigation">
       {config.nav.map((item) => (
         <a
           href={item.href}
-          class="text-3xl font-bold transition-colors duration-200 text-[var(--color-text-on-dark)] hover:text-[var(--color-primary)]"
+          class="text-3xl font-bold transition-colors duration-200 text-[var(--color-text-on-dark)] hover:text-[var(--color-primary)] uppercase tracking-wide"
           style="font-family: var(--font-family-display);"
         >
           {item.label}
         </a>
       ))}
-      <div class="mt-6 flex flex-col items-center gap-4">
+      <div class="mt-8 flex flex-col items-center gap-4">
         <a href={config.cta.primary.href} class="btn-primary">
           {config.cta.primary.label}
         </a>
         <a
           href={`tel:${config.contact.phoneRaw}`}
-          class="text-lg font-bold tracking-wide text-[var(--color-primary)]"
+          class="text-lg font-bold tracking-wide text-[var(--color-primary)] uppercase"
+          style="font-family: var(--font-family-display);"
         >
           {config.contact.phone}
         </a>
@@ -103,12 +115,12 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <!-- Spacer for fixed header -->
-<div class="h-[72px] lg:h-20"></div>
+<div class="h-[71px] lg:h-[79px]"></div>
 
 <!-- Sticky Mobile CTA -->
 <div
-  class="lg:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-sm px-4 py-3 flex items-center justify-between gap-3"
-  style={`background-color: color-mix(in srgb, var(--color-dark) 95%, transparent); border-top: 1px solid var(--color-border-dark);`}
+  class="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 py-3 flex items-center justify-between gap-3"
+  style="background-color: rgba(13,13,14,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--color-border-dark);"
 >
   <a
     href={`tel:${config.contact.phoneRaw}`}

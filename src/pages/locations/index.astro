@@ -15,36 +15,43 @@ function slugify(str: string): string {
   breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Locations', url: '/locations' }]}
 >
   <!-- HERO -->
-  <section class="py-20 lg:py-28" style={`background: var(--color-secondary);`}>
-    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+  <section class="relative py-24 lg:py-32 overflow-hidden topo-pattern" style="background: var(--color-secondary);">
+    <div class="relative z-10 mx-auto max-w-4xl px-5 sm:px-6 lg:px-8 text-center">
       <p class="section-label mb-4">Service Areas</p>
-      <h1 class="text-4xl sm:text-5xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
-        Areas We Serve
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
+        Where We <span style="color: var(--color-primary);">Dig</span>
       </h1>
       <p class="text-lg" style="color: var(--color-text-on-dark-muted);">
         {business.name} proudly serves {contact.address.city} and the surrounding {contact.address.state} communities.
       </p>
     </div>
+    <!-- Earth strip -->
+    <div class="absolute bottom-0 left-0 right-0 z-10 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+    </div>
   </section>
 
   <!-- PRIMARY AREAS -->
-  <section class="py-16 lg:py-24" style="background: var(--color-bg);">
-    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-      <p class="section-label mb-3">Primary Service Areas</p>
-      <h2 class="text-3xl font-bold mb-8" style="font-family: var(--font-family-display);">
+  <section class="py-20 lg:py-28 topo-pattern-light" style="background: var(--color-bg);">
+    <div class="mx-auto max-w-5xl px-5 sm:px-6 lg:px-8">
+      <p class="section-label mb-3 reveal">Primary Service Areas</p>
+      <h2 class="text-3xl sm:text-4xl font-bold mb-10 reveal" style="font-family: var(--font-family-display); text-transform: uppercase;">
         Our Home Turf
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {config.serviceAreas.primary.map((area) => (
+        {config.serviceAreas.primary.map((area, i) => (
           <a
             href={`/locations/${slugify(area)}`}
-            class="group p-6 rounded-lg transition-all duration-200"
-            style="background: var(--color-surface); box-shadow: var(--shadow-card);"
+            class="group p-6 rounded-sm transition-all duration-300 reveal"
+            style={`background: var(--color-surface); box-shadow: var(--shadow-card); border-left: 4px solid var(--color-primary); transition-delay: ${i * 80}ms;`}
           >
-            <h3 class="text-lg font-bold group-hover:text-[var(--color-primary)] transition-colors">
+            <h3 class="text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors" style="font-family: var(--font-family-display); text-transform: uppercase;">
               {area}, {contact.address.state}
             </h3>
-            <p class="text-sm mt-1" style="color: var(--color-text-muted);">
+            <p class="text-xs mt-2 uppercase tracking-widest" style="color: var(--color-text-muted); font-family: var(--font-family-display);">
               Priority scheduling &middot; Fast response
             </p>
           </a>
@@ -55,23 +62,23 @@ function slugify(str: string): string {
 
   <!-- SECONDARY AREAS -->
   {config.serviceAreas.secondary.length > 0 && (
-    <section class="py-16 lg:py-24" style="background: var(--color-bg-alt);">
-      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <p class="section-label mb-3">Extended Service Areas</p>
-        <h2 class="text-3xl font-bold mb-8" style="font-family: var(--font-family-display);">
+    <section class="py-20 lg:py-28" style="background: var(--color-bg-alt);">
+      <div class="mx-auto max-w-5xl px-5 sm:px-6 lg:px-8">
+        <p class="section-label mb-3 reveal">Extended Service Areas</p>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-10 reveal" style="font-family: var(--font-family-display); text-transform: uppercase;">
           We Also Serve
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {config.serviceAreas.secondary.map((area) => (
+          {config.serviceAreas.secondary.map((area, i) => (
             <a
               href={`/locations/${slugify(area)}`}
-              class="group p-6 rounded-lg transition-all duration-200"
-              style="background: var(--color-surface); box-shadow: var(--shadow-card);"
+              class="group p-6 rounded-sm transition-all duration-300 reveal"
+              style={`background: var(--color-surface); box-shadow: var(--shadow-card); border-left: 4px solid var(--color-earth-topsoil); transition-delay: ${i * 60}ms;`}
             >
-              <h3 class="text-lg font-bold group-hover:text-[var(--color-primary)] transition-colors">
+              <h3 class="text-lg font-bold group-hover:text-[var(--color-accent)] transition-colors" style="font-family: var(--font-family-display); text-transform: uppercase;">
                 {area}, {contact.address.state}
               </h3>
-              <p class="text-sm mt-1" style="color: var(--color-text-muted);">
+              <p class="text-xs mt-2 uppercase tracking-widest" style="color: var(--color-text-muted); font-family: var(--font-family-display);">
                 Full service available
               </p>
             </a>
@@ -82,13 +89,20 @@ function slugify(str: string): string {
   )}
 
   <!-- CTA -->
-  <section class="py-16 text-center" style={`background: var(--color-dark);`}>
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold mb-4" style="font-family: var(--font-family-display); color: var(--color-text-on-dark);">
+  <section class="relative py-20 text-center overflow-hidden topo-pattern" style="background: var(--color-dark);">
+    <div class="absolute top-0 left-0 right-0 flex" style="height: 4px;">
+      <div class="flex-1" style="background: var(--color-earth-deep);"></div>
+      <div class="flex-1" style="background: var(--color-earth-rock);"></div>
+      <div class="flex-1" style="background: var(--color-earth-clay);"></div>
+      <div class="flex-1" style="background: var(--color-earth-topsoil);"></div>
+      <div class="flex-1" style="background: var(--color-primary);"></div>
+    </div>
+    <div class="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-5" style="font-family: var(--font-family-display); color: var(--color-text-on-dark); text-transform: uppercase;">
         Don't See Your Area?
       </h2>
-      <p class="mb-8" style="color: var(--color-text-on-dark-muted);">
-        Give us a call — we may still be able to help. We're always expanding our coverage.
+      <p class="mb-10" style="color: var(--color-text-on-dark-muted);">
+        Give us a call -- we may still be able to help. We're always expanding our coverage.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href={cta.primary.href} class="btn-primary">{cta.primary.label}</a>
