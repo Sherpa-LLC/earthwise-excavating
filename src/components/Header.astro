@@ -89,15 +89,21 @@ const currentPath = Astro.url.pathname;
     style="background-color: var(--color-dark);"
   >
     <nav class="flex flex-col items-center gap-6" aria-label="Mobile navigation">
-      {config.nav.map((item) => (
-        <a
-          href={item.href}
-          class="text-3xl font-bold transition-colors duration-200 text-[var(--color-text-on-dark)] hover:text-[var(--color-primary)] uppercase tracking-wide"
-          style="font-family: var(--font-family-display);"
-        >
-          {item.label}
-        </a>
-      ))}
+      {config.nav.map((item) => {
+        const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              'text-3xl font-bold transition-colors duration-200 uppercase tracking-wide',
+              isActive ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-on-dark)] hover:text-[var(--color-primary)]',
+            ]}
+            style="font-family: var(--font-family-display);"
+          >
+            {item.label}
+          </a>
+        );
+      })}
       <div class="mt-8 flex flex-col items-center gap-4">
         <a href={config.cta.primary.href} class="btn-primary">
           {config.cta.primary.label}
